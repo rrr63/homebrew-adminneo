@@ -18,29 +18,26 @@ jobs:
         run: |
           VERSION=$(curl -s https://api.github.com/repos/adminneo-org/adminneo/releases/latest | jq -r '.tag_name' | sed 's/^v//')
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-
-      - name: Construct ZIP URL and check existence
-        id: check_zip
-        run: |
           ZIP_URL="https://www.adminneo.org/files/${VERSION}/__/adminneo-${VERSION}.zip"
           echo "ZIP_URL=$ZIP_URL" >> $GITHUB_ENV
+          # Vérifie que le fichier .zip existe
           if ! curl --head --fail "$ZIP_URL"; then
             echo "Zip file does not exist, aborting."
             exit 1
           fi
 
-      - name: Download ZIP and compute SHA256
+      - name: Calculate SHA256 of zip
         run: |
-          curl -L -o adminneo.zip "$ZIP_URL"
-          SHA256=$(sha256sum adminneo.zip | awk '{print $1}')
+          curl -L -o /tmp/adminneo.zip "$ZIP_URL"
+          SHA256=$(sha256sum /tmp/adminneo.zip | awk '{print $1}')
           echo "SHA256=$SHA256" >> $GITHUB_ENV
 
       - name: Update Homebrew formula
         run: |
           FORMULA="Formula/adminneo.rb"
-          sed -i "s|url \".*\"|url \"$ZIP_URL\"|" $FORMULA
-          sed -i "s|sha256 \".*\"|sha256 \"$SHA256\"|" $FORMULA
           sed -i "s|version \".*\"|version \"$VERSION\"|" $FORMULA
+          sed -i "s|sha256 \".*\"|sha256 \"$SHA256\"|" $FORMULA
+          sed -i "s|url \".*\"|url \"$ZIP_URL\"|" $FORMULA
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
