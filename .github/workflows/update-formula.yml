@@ -16,7 +16,7 @@ jobs:
       - name: Get latest GitHub release version
         id: release
         run: |
-          VERSION=$(curl -s https://api.github.com/repos/adminneo-org/adminneo/releases/latest | jq -r '.tag_name')
+          VERSION=$(curl -s https://api.github.com/repos/adminneo-org/adminneo/releases/latest | jq -r '.tag_name' | sed 's/^v//')
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Construct ZIP URL and check existence
