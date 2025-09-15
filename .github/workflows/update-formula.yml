@@ -39,6 +39,16 @@ jobs:
           sed -i "s|sha256 \".*\"|sha256 \"$SHA256\"|" $FORMULA
           sed -i "s|url \".*\"|url \"$ZIP_URL\"|" $FORMULA
 
+      - name: Check if PR already exists
+        id: check_pr
+        run: |
+          VERSION_BRANCH="update-adminneo-${{ env.VERSION }}"
+          EXISTING_PR=$(gh pr list --repo rrr63/homebrew-adminneo --head $VERSION_BRANCH --state open --json number --jq '.[].number')
+          if [ -n "$EXISTING_PR" ]; then
+            echo "PR already exists: #$EXISTING_PR"
+            exit 0  # Stop workflow gracefully
+          fi
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
