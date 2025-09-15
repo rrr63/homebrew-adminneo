@@ -50,4 +50,4 @@ jobs:
           body: "Automatic update of adminneo formula to version ${{ env.VERSION }}."
           base: main
           labels: update
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}
