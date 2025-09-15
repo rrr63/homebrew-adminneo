@@ -9,7 +9,7 @@ class Adminneo < Formula
   depends_on "php"
 
   def install
-    libexec.install "adminneo-5.1.0.php" => "adminneo.php"
+    libexec.install "adminneo-#{version}.php" => "adminneo.php"
     libexec.install "adminneo-plugins"
 
     (bin/"adminneo").write <<~EOS
