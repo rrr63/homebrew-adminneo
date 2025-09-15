@@ -14,7 +14,8 @@ class Adminneo < Formula
 
     (bin/"adminneo").write <<~EOS
       #!/bin/bash
-      php -S 127.0.0.1:8080 -t "#{libexec}" "#{libexec}/adminneo.php"
+      PORT="\${ADMINNEO_PORT:-8080}"  # Utilise la variable ADMINNEO_PORT ou 8080 par défaut
+      php -S 127.0.0.1:$PORT -t "#{libexec}" "#{libexec}/adminneo.php"
     EOS
   end
 
