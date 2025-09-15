@@ -41,6 +41,8 @@ jobs:
 
       - name: Check if PR already exists
         id: check_pr
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           VERSION_BRANCH="update-adminneo-${{ env.VERSION }}"
           EXISTING_PR=$(gh pr list --repo rrr63/homebrew-adminneo --head $VERSION_BRANCH --state open --json number --jq '.[].number')
