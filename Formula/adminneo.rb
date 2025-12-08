@@ -1,10 +1,10 @@
 class Adminneo < Formula
   desc "Database management in a single PHP file"
   homepage "https://www.adminneo.org/"
-  url "https://www.adminneo.org/files/5.2.0/__/adminneo-5.2.0.zip"
-  sha256 "cd46ad478386551c3351f4a9e6e24871bb7368209a7409815e867d7b9d116af9"
+  url "https://www.adminneo.org/files/5.2.1/__/adminneo-5.2.1.zip"
+  sha256 "c85f624bf68e90e9a1edafffc61f1313e99e68a639ff9eba91263b8d3a193acc"
   license "Apache-2.0"
-  version "5.2.0"
+  version "5.2.1"
 
   depends_on "php"
 
